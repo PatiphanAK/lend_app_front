@@ -1,17 +1,27 @@
 <script setup>
 import { onMounted, computed, ref } from 'vue';
-import { useMeStore } from '@/stores/meStore'; // นำเข้า meStore แทน authStore
+import { useMeStore } from '@/stores/meStore';
+import { useOrgStore } from '@/stores/orgStore'; 
 
 const meStore = useMeStore(); // นำเข้า meStore
 const loading = ref(true); // สถานะโหลดข้อมูล
+const orgStore = useOrgStore(); // เปลี่ยนชื่อเป็น orgStore
 
 // Computed properties
 const isAuthenticated = computed(() => meStore.me && Object.keys(meStore.me).length > 0);
 const user = computed(() => meStore.me); // ใช้ข้อมูลจาก meStore
 
+const getOrganizationName = (organizationId) => {
+    const organization = orgStore.org.find(org => org.id === organizationId);
+    console.log("orgStore", orgStore.org);
+    console.log("organization", organizationId);
+    return organization ? organization.name : 'Unknown Organization'; // ถ้าไม่พบ
+};
+
 onMounted(async () => {
   try {
     await meStore.fetchMe(); // ดึงข้อมูลผู้ใช้เมื่อ component ถูก mounted
+    await orgStore.fetchOrg();
   } catch (error) {
     console.error('Fetch user failed:', error);
     alert('Failed to fetch user data.'); // แสดงข้อความแจ้งเตือน
@@ -20,6 +30,7 @@ onMounted(async () => {
   }
 });
 </script>
+
 <template>
   <div class="flex flex-col items-center justify-center h-screen bg-gray-100 p-4">
     <h1 class="text-4xl font-bold mb-6">Profile</h1>
@@ -38,6 +49,11 @@ onMounted(async () => {
           <div v-for="(subValue, subKey) in value" :key="subKey">
             <p class="text-gray-600">{{ subKey.charAt(0).toUpperCase() + subKey.slice(1) }}: {{ subValue }}</p>
           </div>
+        </div>
+        <div v-else-if="key === 'organization'"> <!-- ตรวจสอบ organization_id -->
+            <p class="text-gray-600">
+                Organization: {{ getOrganizationName(value) }} <!-- แสดงชื่อองค์กรแทน ID -->
+            </p>
         </div>
         <div v-else-if="key !== 'profile_image'"> <!-- ตรวจสอบให้ไม่แสดง profile_image -->
           <p class="text-gray-600">{{ key.charAt(0).toUpperCase() + key.slice(1) }}: {{ value }}</p>

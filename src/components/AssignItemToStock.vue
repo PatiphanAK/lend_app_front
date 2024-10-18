@@ -30,7 +30,7 @@ const assignItem = async () => {
     };
 
     try {
-        await axios.post(`${BASE_URL}equipment-stocks/assign/`, data ,{
+        await axios.post(`${BASE_URL}equipment-stocks/assign/`, data, {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -49,21 +49,25 @@ onMounted(fetchItems);
 </script>
 
 <template>
-    <goBackBtn /><br>
-    <div>
-        <h1>Assign Item to Stock</h1>
-        <div>
-            <label for="itemSelect">Select Item:</label>
-            <select id="itemSelect" v-model="selectedItemId">
+    <div class="p-6 max-w-lg mx-auto bg-white rounded-lg shadow-md">
+        <goBackBtn class="mb-4" />
+        <h1 class="text-2xl font-semibold mb-6">Assign Item to Stock</h1>
+
+        <div class="mb-4">
+            <label for="itemSelect" class="block text-sm font-medium text-gray-700">Select Item:</label>
+            <select id="itemSelect" v-model="selectedItemId" class="select select-bordered w-full mt-2">
                 <option v-for="item in items" :key="item.id" :value="item.id">
                     {{ item.name }}
                 </option>
             </select>
         </div>
-        <div>
-            <label for="quantity">Quantity:</label>
-            <input id="quantity" type="number" v-model="quantity" min="1" required />
+
+        <div class="mb-4">
+            <label for="quantity" class="block text-sm font-medium text-gray-700">Quantity:</label>
+            <input id="quantity" type="number" v-model="quantity" min="1" required
+                class="input input-bordered w-full mt-2" />
         </div>
-        <button @click="assignItem">Assign</button>
+
+        <button @click="assignItem" class="btn btn-primary w-full">Assign</button>
     </div>
 </template>

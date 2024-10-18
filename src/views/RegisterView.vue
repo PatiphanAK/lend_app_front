@@ -57,7 +57,6 @@ onMounted(async () => {
 
 // Function to submit the form
 const submitForm = async () => {
-    loading.value = true;
     try {
         const url = isApprover.value ? `${BASE_URL}approvers/` : `${BASE_URL}borrowers/`;
 
@@ -80,8 +79,6 @@ const submitForm = async () => {
     } catch (error) {
         console.error('การลงทะเบียนล้มเหลว:', error);
         alert('การลงทะเบียนล้มเหลว กรุณาลองใหม่อีกครั้ง.');
-    } finally {
-        loading.value = false;
     }
 };
 </script>
