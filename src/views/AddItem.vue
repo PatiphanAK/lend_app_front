@@ -42,6 +42,7 @@ const addItem = async () => {
 // ดึงข้อมูล Categories เมื่อ component ถูก mount
 onMounted(async () => {
     await categoriesStore.fetchCategories();
+    categories.value = categoriesStore.categories; // อัปเดต categories ที่เก็บไว้
 });
 // ใช้ watchEffect เพื่อตรวจสอบการเปลี่ยนแปลงใน categoriesStore
 watchEffect(() => {
@@ -50,25 +51,57 @@ watchEffect(() => {
 </script>
 
 <template>
-    <div>
-        <h1>Add Item</h1>
-        <goBackBtn />
-        <div>
-            <label for="itemName">Item Name:</label>
-            <input id="itemName" type="text" v-model="itemName" required />
+    <div class="p-6 max-w-lg mx-auto bg-white rounded-lg shadow-md">
+      <h1 class="text-2xl font-semibold mb-6">Add Item</h1>
+      <goBackBtn class="mb-4" />
+      
+      <div class="mb-4">
+        <label for="itemName" class="block text-sm font-medium text-gray-700">Item Name:</label>
+        <input
+          id="itemName"
+          type="text"
+          v-model="itemName"
+          required
+          class="input input-bordered w-full mt-2"
+        />
+      </div>
+      
+      <div class="mb-4">
+        <label for="itemDescription" class="block text-sm font-medium text-gray-700">Item Description:</label>
+        <input
+          id="itemDescription"
+          type="text"
+          v-model="itemDescription"
+          required
+          class="input input-bordered w-full mt-2"
+        />
+      </div>
+      
+      <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-700">Categories:</label>
+        <div v-for="category in categories" :key="category.id" class="flex items-center mb-2">
+          <input
+            type="checkbox"
+            :id="`category-${category.id}`"
+            :value="category.id"
+            v-model="selectedCategories"
+            class="checkbox"
+          />
+          <label :for="`category-${category.id}`" class="ml-2">{{ category.name }}</label>
         </div>
-        <div>
-            <label for="itemDescription">Item Description:</label>
-            <input id="itemDescription" type="text" v-model="itemDescription" required />
-        </div>
-        <div v-for="category in categories" :key="category.id">
-            <input type="checkbox" :id="`category-${category.id}`" :value="category.id" v-model="selectedCategories" />
-            <label :for="`category-${category.id}`">{{ category.name }}</label>
-        </div>
-        <div>
-            <label for="itemImage">Item Image:</label>
-            <input id="itemImage" type="file" @change="event => itemImage.value = event.target.files[0]" required />
-        </div>
-        <button @click="addItem">Submit</button>
+      </div>
+      
+      <div class="mb-4">
+        <label for="itemImage" class="block text-sm font-medium text-gray-700">Item Image:</label>
+        <input
+          id="itemImage"
+          type="file"
+          @change="event => itemImage.value = event.target.files[0]"
+          required
+          class="file-input w-full mt-2"
+        />
+      </div>
+      
+      <button @click="addItem" class="btn btn-primary w-full">Submit</button>
     </div>
-</template>
+  </template>

@@ -2,12 +2,14 @@
 import goBackBtn from './goBackBtn.vue';
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
-
+import { useMeStore } from '@/stores/meStore';
 const items = ref([]);
 const selectedItemId = ref(null);
 const quantity = ref(1);
 const BASE_URL = 'http://127.0.0.1:8000/';
 const isLoading = ref(false);
+const useMeStore = useMeStore();
+
 // ฟังก์ชันสำหรับดึงข้อมูล Items จาก API
 const fetchItems = async () => {
     isLoading.value = true; // เริ่มโหลดข้อมูล
@@ -21,7 +23,7 @@ const fetchItems = async () => {
 
 // ฟังก์ชันสำหรับการ Assign Item
 const assignItem = async () => {
-    const organizationId = 1; // เปลี่ยนเป็น organization_id ที่เหมาะสม
+    const organizationId = useMeStore.me.organization; // เปลี่ยนเป็น organization_id ที่เหมาะสม
 
     const data = {
         quantity: quantity.value,
