@@ -1,14 +1,14 @@
 <script setup>
-import goBackBtn from './goBackBtn.vue';
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { useMeStore } from '@/stores/meStore';
+
 const items = ref([]);
 const selectedItemId = ref(null);
 const quantity = ref(1);
 const BASE_URL = 'http://127.0.0.1:8000/';
 const isLoading = ref(false);
-const useMeStore = useMeStore();
+const meStore = useMeStore(); // เปลี่ยนชื่อเป็น meStore
 
 // ฟังก์ชันสำหรับดึงข้อมูล Items จาก API
 const fetchItems = async () => {
@@ -18,12 +18,14 @@ const fetchItems = async () => {
         items.value = response.data;
     } catch (error) {
         console.error('Error fetching items:', error);
+    } finally {
+        isLoading.value = false; // เสร็จสิ้นการโหลดข้อมูล
     }
 };
 
 // ฟังก์ชันสำหรับการ Assign Item
 const assignItem = async () => {
-    const organizationId = useMeStore.me.organization; // เปลี่ยนเป็น organization_id ที่เหมาะสม
+    const organizationId = meStore.me.organization; // ดึง organization_id ที่ถูกต้อง
 
     const data = {
         quantity: quantity.value,
@@ -47,7 +49,6 @@ const assignItem = async () => {
 
 // ดึงข้อมูล Items เมื่อ component ถูก mount
 onMounted(fetchItems);
-
 </script>
 
 <template>

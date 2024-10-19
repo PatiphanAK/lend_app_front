@@ -15,7 +15,7 @@ const goTo = (path) => {
     <div class="w-1/6 bg-gray-100 text-gray-800 p-4 shadow-lg">
       <ul>
         <li class="mb-4">
-          <button @click="goTo('ApprovalHistory')" class="btn btn-outline w-full">Approve History</button>
+          <button @click="goTo('ApprovalHistory')" class="btn btn-outline w-full">Approval History</button>
         </li>
         <li class="mb-4">
           <button @click="goTo('AddItem')" class="btn btn-outline w-full">Add Item</button>
@@ -27,10 +27,13 @@ const goTo = (path) => {
           <button @click="goTo('WaitingForApproval')" class="btn btn-outline w-full">Waiting for Approve</button>
         </li>
         <li class="mb-4">
-          <button @click="goTo('orgEquipmentStock')" class="btn btn-outline w-full">Organization Equipment Stock</button>
+          <button @click="goTo('OrganizationStock')" class="btn btn-outline w-full">Organization Equipment Stock</button>
         </li>
         <li class="mb-4">
-          <button @click="goTo('orgApproveHistory')" class="btn btn-outline w-full">Organization Approve History</button>
+          <button @click="goTo('OrgApproveHistory')" class="btn btn-outline w-full">Organization Approve History</button>
+        </li>
+        <li class="mb-4">
+          <button @click="goTo('WaitingForReturn')" class="btn btn-outline w-full">Waiting for Return</button>
         </li>
       </ul>
     </div>

@@ -9,6 +9,15 @@ import ProfileView from "@/views/ProfileView.vue";
 import AssignItemToStock from "@/components/AssignItemToStock.vue";
 import WaitingForApproval from "@/components/WaitingForApprovel.vue";
 import RegisterView from "@/views/RegisterView.vue";
+import OrgStock from "@/components/OrgStock.vue";
+import EquipmentList from "@/components/EquipmentList.vue";
+import BorrowHistory from "@/components/Search.vue";
+import PendingRequest from "@/components/PendingRequest.vue";
+import CreateRequest from "@/components/CreateRequest.vue";
+import WaitingForReturn from "@/components/WaitingForReturn.vue";
+import ApprovalHistory from "@/components/ApprovalHistory.vue";
+import OrgApproveHistory from "@/components/OrgApproveHistory.vue";
+import Filter from "@/components/Filter.vue";
 
 const routes = [
   { path: "/", name: "Home", component: HomeView },
@@ -18,6 +27,33 @@ const routes = [
     name: "BorrowerDashboard",
     component: BorrowerDashboard,
     meta: { requiresAuth: true },
+    children: [
+    {
+      path: "equipment-list",
+      name: "EquipmentList",
+      component: EquipmentList,
+    },
+    {
+      path: "borrow-history",
+      name: "BorrowHistory",
+      component: BorrowHistory,
+    },
+    {
+      path:"pending-request",
+      name:"PendingRequest",
+      component: PendingRequest
+    },
+    {
+      path: "create-request",
+      name: "CreateRequest",
+      component: CreateRequest
+    },
+    {
+      path:"filter",
+      name:"FilterStock",
+      component: Filter
+    }
+    ],
   },
   {
     path: "/profile/",
@@ -32,23 +68,44 @@ const routes = [
     meta: { requiresAuth: true },
     children: [ // แก้ไขจาก childern เป็น children
       {
-        path: "add-item", // ทำให้เส้นทางเป็นเส้นทางสัมพัทธ์
+        path: "add-item", 
         name: "AddItem",
         component: AddItem,
         meta: { requiresAuth: true },
       },
       {
-        path: "assign-item", // ทำให้เส้นทางเป็นเส้นทางสัมพัทธ์
+        path: "assign-item", 
         name: "AssignItem",
         component: AssignItemToStock,
         meta: { requiresAuth: true },
       },
       {
-        path: "waiting-for-approval", // ทำให้เส้นทางเป็นเส้นทางสัมพัทธ์
+        path: "waiting-for-approval", 
         name: "WaitingForApproval",
         component: WaitingForApproval,
         meta: { requiresAuth: true },
       },
+      {
+        path: "org-stock", 
+        name: "OrganizationStock",
+        component: OrgStock,
+        meta: { requiresAuth: true },
+      },
+      {
+        path: "waiting-for-return", 
+        name: "WaitingForReturn",
+        component: WaitingForReturn,
+      },
+      {
+        path: "approval-history",
+        name: "ApprovalHistory",
+        component: ApprovalHistory,
+      },
+      {
+        path: "org-approve-history",
+        name: "OrgApproveHistory",
+        component: OrgApproveHistory
+      }
     ],
   },
   { path: "/register/", name: "Register", component: RegisterView },

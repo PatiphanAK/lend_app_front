@@ -37,6 +37,24 @@ export const useAuthStore = defineStore("auth", {
         throw error;
       }
     },
+    async loginWithToken(token) {
+      this.accessToken = token;
+      this.isAuthenticated = true;
+      localStorage.setItem("accessToken", token); // บันทึก token ใน localStorage
+
+      try {
+        // ดึงข้อมูลผู้ใช้โดยใช้ token
+        const response = await axios.get(`${BASE_URL}/me/`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        this.user = response.data; // เก็บข้อมูลผู้ใช้ใน state
+      } catch (error) {
+        console.error("Failed to fetch user data with token:", error);
+        this.isAuthenticated = false; // หากไม่สามารถดึงข้อมูลได้ ให้ออกจากสถานะเข้าสู่ระบบ
+      }
+    },
     logout() {
       this.accessToken = null;
       this.user = null;

@@ -70,15 +70,17 @@ const submitForm = async () => {
             body: formDataToSubmit,
         });
 
-        if (response.ok) {
+        if (response === 201) {
             alert('ลงทะเบียนสำเร็จ');
         } else {
             const errorData = await response.json();
             alert(`การลงทะเบียนล้มเหลว: ${errorData.message || 'กรุณาลองใหม่อีกครั้ง.'}`);
         }
     } catch (error) {
-        console.error('การลงทะเบียนล้มเหลว:', error);
-        alert('การลงทะเบียนล้มเหลว กรุณาลองใหม่อีกครั้ง.');
+    // จัดการข้อผิดพลาดที่เกิดขึ้น
+    const errorData = error.response ? error.response.data : {};
+    const errorMessage = extractErrorMessages(errorData);
+    alert(`การลงทะเบียนล้มเหลว: ${errorMessage}`);
     }
 };
 </script>
